@@ -3,9 +3,11 @@ var db = require('mongodb').MongoClient.connect('mongodb://localhost/test');
 var Q = require('q');
 
 router.get('/', function(req, res, next) {
-    res.json({
-        status: req.session.user != undefined
-    });
+    var info={};
+    if(req.session && !!req.session.user && !!req.session.user.username){
+        info.username = req.session.user.username;
+    } 
+    res.json(info);
 });
 
 router.post('/', function(req, res, next) {
@@ -39,12 +41,18 @@ router.post('/', function(req, res, next) {
         });
         return deferred.promise;
     }).then(function(info) {
-        if(!info.username) res.status(400)
         res.json(info)
     }).catch(function(err) {
         console.log('login fail', err);
         next(err);
     });
+})
+
+router.delete('/', function(req, res, next){
+    req.session.destroy(function(err){
+        if(err){next(err)}
+        else res.json({})
+    })
 })
 
 module.exports = router;

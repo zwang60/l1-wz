@@ -3,6 +3,8 @@
 <head>
     <script src="libs/jquery/dist/jquery.js"></script>
     <script src="libs/angular/angular.js"></script>
+    <link rel="stylesheet" href="stylesheets/style.css"/>
+    <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.css"/>    
 </head>
 <body ng-app="app" ng-controller="LoginCtrl as login">
     <form ng-show="!login.user" onSubmit="return false;">
@@ -11,9 +13,10 @@
         <label>Password:</label> 
         <input ng-model="nu.password">
         <button ng-click="login.login(nu)">login</button>
+        <div class="errmsg" ng-hide="!login.msg">{{login.msg}}</div>
     </form>
     <div ng-show="!!login.user">Welcome, {{login.user.username}},
-        <a>Logout</a>
+        <a class="btn btn-danger" ng-click="login.logout()">Logout</a>
     </div>
     <script src="app.js"></script>
 </body>
