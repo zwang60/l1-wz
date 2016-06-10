@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <script src="libs/jquery/dist/jquery.js"></script>
+    <script src="libs/angular/angular.js"></script>
+</head>
+<body ng-app="app" ng-controller="LoginCtrl as login">
+    <form ng-show="!login.user" onSubmit="return false;">
+        <label>UserName:</label> 
+        <input ng-model="nu.username">
+        <label>Password:</label> 
+        <input ng-model="nu.password">
+        <button ng-click="login.login(nu)">login</button>
+    </form>
+    <div ng-show="!!login.user">Welcome, {{login.user.username}},
+        <a>Logout</a>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
