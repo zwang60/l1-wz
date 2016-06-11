@@ -23,22 +23,22 @@ router.post('/', function(req, res, next) {
         return db.collection('users').find(user).toArray();
     }).then(function(users) {
         if (!users || users.length == 0) {
-            return({
+            return {
                 msg: 'username or password not matched'
-            })
+            }
         }
         var deferred = Q.defer();
         req.session.user = users[0];
         req.session.save(function(err) {
             if (err) {
-                deferred.reject(err);
+                deferred.reject(err)
 
             } else {
                 deferred.resolve({
                     username: user.username
-                });
+                })
             }
-        });
+        })
         return deferred.promise;
     }).then(function(info) {
         res.json(info)
