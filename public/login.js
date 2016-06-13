@@ -4,7 +4,11 @@
     angular.module('app')
         .directive('myLogin', function(){
             return {
-                templateUrl: 'login.html'
+                templateUrl: 'login.html',
+                scope: {
+                    user: '='
+                },
+                controller: 'LoginCtrl as loginCtrl'
             }
         });
 })();
