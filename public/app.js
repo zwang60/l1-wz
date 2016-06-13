@@ -1,46 +1,47 @@
-(function(){
+(function() {
     'use strict';
 
     angular.module('app', [])
-        .factory('login', function($http){
-            var changes = []; //function array
-            var change = function(data){
-                changes.forEach(function(fn){
-                    fn(data);
-                })
+        .factory('login', function($http) {
+            var loginInfo;
+            var change = function(data) {
+                loginInfo = data.data;
             };
             return {
-                login: function(user){
+                login: function(user) {
                     return $http.post('/api/login', user).then(change);
                 },
-                logout: function(){
+                logout: function() {
                     return $http.delete('/api/login').then(change);
                 },
-                isLogin: function(){
+                isLogin: function() {
                     return $http.get('/api/login').then(change);
                 },
-                onchange: function(fn){
-                    changes.push(fn);
+                getInfo: function(){
+                    return loginInfo;
                 }
             }
         })
-        .controller('MainCtrl', function($scope, login){
+        .controller('MainCtrl', function($scope, login) {
+            $scope.login = login;
             login.isLogin();
-            $scope.logout = function(){
+            $scope.logout = function() {
                 login.logout();
             };
-            login.onchange(function(data){
-                $scope.loginInfo = data.data;
+            $scope.$watch('login.getInfo()', function(n, o){
+                $scope.loginInfo = n;
             })
         })
         .controller('LoginCtrl', ['login', '$scope',
-                function(login, $scope){
-                    var self = this;
-                    self.login = function(user){
-                        login.login(user);
-                    };
-                    login.onchange(function(data){
-                        self.loginInfo = data.data;
-                    })
-                }])
+            function(login, $scope) {
+                $scope.login = login;
+                var self = this;
+                self.login = function(user) {
+                    login.login(user);
+                };
+                $scope.$watch('login.getInfo()', function(n, o){
+                    self.loginInfo = n;
+                })
+            }
+        ])
 })();
