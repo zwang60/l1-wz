@@ -47,4 +47,12 @@ router.post('/', function(req, res, next) {
     });
 })
 
+router.delete('/', function(req, res, next){
+    req.session.destroy(function(err){
+        if(err) next(err);
+        else res.json({})
+    })
+})
+
+
 module.exports = router;

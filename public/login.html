@@ -1,0 +1,8 @@
+<form onSubmit="return false;">
+    <label>UserName:</label>
+    <input ng-model="nu.username">
+    <label>Password:</label>
+    <input ng-model="nu.password">
+    <button ng-click="login(nu)">login</button>
+    <div class="errmsg" ng-hide="!info.msg">{{info.msg}}</div>
+</form>
